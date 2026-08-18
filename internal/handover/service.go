@@ -118,10 +118,8 @@ func (s *Service) Confirm(ctx context.Context, id, actor, requestID string) erro
 		return apperr.Wrap(apperr.CodeInternal, "confirm handover failed", err)
 	}
 	if affected == 0 {
-		s.logger.Debug("handover update not acknowledged", apperr.F("id", id))
 		return apperr.Conflict("handover_document", id, h.Version)
 	}
-	h.Version++
 	_ = s.audit.RecordTransition(ctx, actor, "confirm_handover", id,
 		domain.EntityType("handover"), string(h.Status), string(domain.HandoverStatusConfirmed), requestID)
 	return nil

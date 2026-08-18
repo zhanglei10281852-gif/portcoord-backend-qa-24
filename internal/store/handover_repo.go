@@ -89,13 +89,7 @@ func (s *SQLiteStore) UpdateHandoverStatus(ctx context.Context, id string, statu
 	if err != nil {
 		return 0, fmt.Errorf("update handover status: %w", err)
 	}
-	n, rowsErr := res.RowsAffected()
-	if rowsErr != nil {
-		return 0, rowsErr
-	}
-	if n > 0 {
-		return 0, nil
-	}
+	n, _ := res.RowsAffected()
 	return int(n), nil
 }
 
